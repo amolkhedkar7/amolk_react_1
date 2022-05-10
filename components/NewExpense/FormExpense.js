@@ -22,8 +22,8 @@ const FormExpense = (props) => {
         event.preventDefault();
         const expenseData = {
             title : enteredTitle,
-            amount : enteredAmount,
-            data : new Date(enteredDate)
+            amount : Number(enteredAmount),
+            date : new Date(enteredDate)
         };
         props.onSaveExpenseData(expenseData);
         setEnteredTitle('');
@@ -33,8 +33,18 @@ const FormExpense = (props) => {
 
     };
 
+    const cancelClickHandler = (event) =>{
+        event.preventDefault();
+        setFormHTML(addNewButtonJSX);
+    };
 
-    return(<form onSubmit={submitHandler}>
+    const addNewExpenseHandler = event =>{
+        event.preventDefault();
+        setFormHTML(entireFormJSX);
+    };
+
+    const entireFormJSX = 
+    <form onSubmit={submitHandler}>
         <div className='new-expense__controls'>
             <div className='new-expense__controls'>
                 <label>Title</label>
@@ -49,10 +59,22 @@ const FormExpense = (props) => {
                 <input type="date" min="2019-01-01" max="2022-12-31"value={enteredDate} onChange={dateChangeHandler}></input>
             </div>
             <div className='new-expense__action'>
-                <button type='submin'>Add Expense</button>
+                <button onClick={cancelClickHandler}>Cancel</button>
+            </div>
+            <div className='new-expense__action'>
+                <button type='submit'>Add Expense</button>
             </div>
         </div>
-    </form>);
+    </form>
+
+    const addNewButtonJSX = 
+    <div className='new-expense__action'>
+        <button onClick={addNewExpenseHandler}>Add New Expense</button>
+    </div>
+
+    const [formHTML, setFormHTML] = useState(addNewButtonJSX);
+
+    return(formHTML);
 };
 
 export default FormExpense;
